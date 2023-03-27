@@ -32,7 +32,7 @@ file_name=${input_files[$SLURM_ARRAY_TASK_ID-1]}
 base_name=$(basename ${file_name} _1_trimmed.fq.gz)
 
 # Run HISAT2
-#hisat2 -x $INDEX -1 $input_dir/${base_name}_1_trimmed.fq.gz -2 ${input_dir}/${base_name}_2_trimmed.fq.gz -S $OUTDIR/${base_name}.sam -p 16 --un-conc-gz $OUTDIR/unmapped_${base_name} 
+hisat2 -x $INDEX -1 $input_dir/${base_name}_1_trimmed.fq.gz -2 ${input_dir}/${base_name}_2_trimmed.fq.gz -S $OUTDIR/${base_name}.sam -p 16 --un-conc-gz $OUTDIR/unmapped_${base_name} 
    
 
 	 # Convert SAM to BAM 
