@@ -1,5 +1,5 @@
 #!/bin/bash
-
+SECONDS=0
 #SBATCH --job-name=hisat2 # Job name
 #SBATCH --nodes=1 # should never be anything other than 1
 #SBATCH --ntasks=1
@@ -44,5 +44,5 @@ hisat2 -x $INDEX -1 $input_dir/${base_name}_1_trimmed.fq.gz -2 ${input_dir}/${ba
     	# Index BAM file
     	samtools index $sorted_bam/${base_name}_sorted.bam 
 
-    
+    duration=$SECONDS
 
