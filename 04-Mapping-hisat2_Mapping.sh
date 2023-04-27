@@ -15,6 +15,9 @@ SECONDS=0
 
 set -o xtrace
 
+# for calculating the amount of time the job takes and echo the hostname
+begin=`date +%s`
+echo $HOSTNAME
 
 # Path to reference genome and index prefix
 REF_GENOME=/home/biopatic/abbasi/P4--RNA-Seq-loreta/Ref_Database/Loretta/Plutella_reference/genome_assemblies_genome_fasta/ncbi-genomes-2022-08-03/PLUTELLA/2-Plutella_genome/GCA_019096205.1_PxLV.1_genomic.fna
@@ -46,3 +49,7 @@ hisat2 -x $INDEX -1 $input_dir/${base_name}_1_trimmed.fq.gz -2 ${input_dir}/${ba
 
     duration=$SECONDS
 
+# getting end time to calculate time elapsed
+end=`date +%s`
+elapsed=`expr $end - $begin`
+echo Time taken: $elapsed
