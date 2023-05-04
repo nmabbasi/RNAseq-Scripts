@@ -1,0 +1,38 @@
+#!/bin/bash
+#SBATCH --job-name=velvet_assembly
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=4
+#SBATCH --mem=8G
+#SBATCH --time=1:00:00
+
+# Load the velvet module
+module load velvet
+
+# Set the input and output file names
+input_file="reads.fastq"
+output_directory="assembly_results"
+output_file="output"
+
+# Check if the output directory exists, and create it if it doesn't
+if [ ! -d "$output_directory" ]; then
+    mkdir "$output_directory"
+fi
+
+# Run the velvet assembly, specifying the input file and output file names
+velveth "$output_directory" 31 -fastq -shortPaired -separate "$input_file"
+velvetg "$output_directory" -read_trkg yes -exp_cov auto -cov_cutoff auto -min_contig_lgth 100 -scaffolding yes -ins_length 300 -ins_length_sd 50 -min_pair_count 5 -unused_reads yes -amos_file yes -output_file "$output_file"
+
+In this example script, we first set some parameters for the SLURM job scheduling, including the job name, number of tasks, CPUs per task, memory, and time. We then load the velvet module to make the velvet commands available.
+
+Next, we set the input and output file names for the assembly, including the name of the input fastq file and the name of the output directory and file. We also check if the output directory exists, and create it if it doesn't.
+
+Finally, we run the velvet assembly using the velveth and velvetg commands, specifying the input and output file names and various assembly parameters. Note that the velveth command generates the input files for the assembly, and the velvetg command performs the assembly itself.
+
+To manage dependencies using this script, you could submit it to SLURM using the sbatch command, and include any necessary dependencies using the --dependency option. For example, if you had a previous job that generated the input fastq file, you could submit that job with a unique job ID and then include that ID as a dependency for this script. This would ensure that the input file is available before the assembly script runs.
+
+Here's an example of how you could submit the script with a dependency:
+
+sbatch --dependency=afterok:<previous_job_id> velvet_assembly.sh
+
+In this example, <previous_job_id> should be replaced with the ID of the previous job that generated the input fastq file. The --dependency option ensures that this script won't run until that previous job has completed successfully.
+
