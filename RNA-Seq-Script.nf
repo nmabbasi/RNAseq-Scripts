@@ -6,7 +6,7 @@ RNAseq pipeline
 nextflow.version = '23.04.1.5866'
 
 params {
-    path_fastq = "data/*{1,2}.fastq.gz"
+    path_fastq = "data/*_{1,2}.fastq.gz"
     ref_genome = "genome.fa"
     gtf_file = "annotations.gtf"
 }
